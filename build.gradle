@@ -1,0 +1,60 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.4.RELEASE'
+    }
+
+    dependencies {
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.5'
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+        classpath('org.owasp:dependency-check-gradle:3.3.4')
+    }
+}
+
+
+plugins {
+    id "groovy"
+    id "idea"
+    id "org.springframework.boot" version "2.0.4.RELEASE"
+    id "com.jfrog.artifactory" version "4.7.5"
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.owasp.dependencycheck'
+
+
+group = 'com.huantt'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.15'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compile 'org.springframework.data:spring-data-mongodb:2.0.4.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.security:spring-security-config:5.1.1.RELEASE'
+    compile 'org.springframework.security:spring-security-core:5.1.1.RELEASE'
+    compile 'org.springframework.security:spring-security-web:5.1.1.RELEASE'
+
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+    compile 'org.springframework.boot:spring-boot-starter-jetty'
+
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
+    compile 'com.squareup.okhttp3:okhttp:3.11.0'
+    compile 'io.sentry:sentry-logback:1.7.17'
+
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
